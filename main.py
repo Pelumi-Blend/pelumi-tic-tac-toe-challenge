@@ -2,6 +2,7 @@
 import numpy as np
 #https://www.w3schools.com/python/python_user_input.asp
 #https://www.geeksforgeeks.org/python/how-to-replace-values-in-a-list-in-python/
+#https://www.geeksforgeeks.org/python/input-validation-in-python/
 
 #players
 player_1 = 'X'
@@ -31,8 +32,8 @@ player_positions = {
 }
 
 #FLAGS
-
-number_flag= True
+player_number_flag = True
+number_flag = True
 has_won = False
 
 user_row_col = 0
@@ -78,8 +79,6 @@ def check_position(game_board:list,player:str):
                 print(f'{player} is unable to fit as spot taken by {player_1}')
             elif game_board[i][i] == player_2:
                 print(f'{player} is unable to fit as Spot taken by {player_2}')
-        return False
-    return True
 
 
 def show_board(game_board:list):
@@ -90,9 +89,9 @@ def show_board(game_board:list):
 
 #While user input != int ask for a number (int)
 while number_flag:
-    user_row_input = input("Welcome, Please enter a number > than 0:")
+    user_no_input = input("Welcome, Please enter a number > than 0:")
     try:
-        user_row_input = int(user_row_input)
+        user_no_input = int(user_no_input)
         number_flag = False
     except:
         print("Please enter a whole number etc 1,2,3" )
@@ -108,46 +107,44 @@ while number_flag:
 
     show_board(board)
 
-
-player_number_flag = True
+max_count = user_row_col * user_row_col
 
 while not has_won:
     player_1_input = 0
     player_2_input = 0
 
-    while player_number_flag:
+    while True:
         try:
             player_1_input = int(input("~~~~~~\nHello player 1 you are X please choose a number: "))
-            player_number_flag = False
-            update_board(player_1_input,board,player_1)
-            show_board(board)
+
+            if player_1_input <= max_count:
+                update_board(player_1_input,board,player_1)
+                show_board(board)
+                break
+            else:
+                print(f"Please enter a value less than {max_count}")
         except:
             print("Please enter a number")
 
-    player_number_flag = True
 
-    while player_number_flag:
+    while True:
         try:
             player_2_input = int(input("~~~~~~\nHello player 2 you are O please choose a number: "))
-            player_number_flag = False
-            update_board(player_2_input,board,player_2)
-            show_board(board)
+
+            if player_2_input <= max_count:
+                update_board(player_2_input,board,player_2)
+                show_board(board)
+                break
+            else:
+                print(f"Please enter a value less than {max_count}")
+            break
         except:
             print("Please enter a number")
 
-    player_number_flag = True
+
+
+
     # has_won = True
 
 
 
-
-#player 1 X player 2 O
-
-
-
-# create_board(user_row_col)
-#
-# show_board(board)
-
-
-# update_board(5,board,'X')
