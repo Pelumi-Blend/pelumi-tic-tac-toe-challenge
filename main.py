@@ -32,7 +32,6 @@ player_positions = {
 }
 
 #FLAGS
-player_number_flag = True
 number_flag = True
 has_won = False
 
