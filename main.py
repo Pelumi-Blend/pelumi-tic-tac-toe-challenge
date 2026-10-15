@@ -1,25 +1,47 @@
 
 import numpy as np
 #https://www.w3schools.com/python/python_user_input.asp
+#https://www.geeksforgeeks.org/python/how-to-replace-values-in-a-list-in-python/
+
+#players
+player_1 = 'X'
+player_2 = 'O'
 #game_board
 board = []
 
-#Winning Combinations
+#Winning Combinations only for 3
+winning_combinations = (
+    #across
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    #downwards
+    [1,4,7],
+    [2,5,8],
+    [3,6,9],
+    #Diagonal
+    [1,5,9],
+    [3,5,7]
+)
 
+#keep track of player positions
+player_positions = {
+    'X': [],
+    'O': []
+}
 
-#Flag to keep track of if user has inputed an INT or not
+#FLAGS
+
 number_flag= True
+has_won = False
 
 user_row_col = 0
 
 
-def create_board(row_col:int = 3):
-    #create count variable to keep track of number to append
+def create_board(row_col:int):
+    """Creates board based on user input"""
     count = 1
-    """dynamically creates a board based on user input
-        Args:
-        row_cow(int): Size of row and column
-    """
+
     for i in range(1,row_col+1):
         row = []
         for j in range(row_col):
@@ -29,11 +51,41 @@ def create_board(row_col:int = 3):
 
     #print(board)
 
+def update_positions(player_locations:dict,player:str, player_input:int):
+    """updates player position tracker in player_position"""
+    player_locations.update({player:player_input})
+
+
+
+
+def update_board(player_input:int, game_board:list, player:str):
+    """Compares input to board and updates if conditions match"""
+    for i in range(len(game_board)):
+        for j in range(len(game_board)):
+            if game_board[i][j] == player_input:
+                game_board[i][j] = player
+
+                #update player position
+                update_positions(player_positions,player,player_input)
+    #print(player_positions)
+
+
+def check_position(game_board:list,player:str):
+    """Checks if the position the player inputs is free """
+    for i in range(len(game_board)):
+        for j in range(len(game_board)):
+            if game_board[i][j] == player_1:
+                print(f'{player} is unable to fit as spot taken by {player_1}')
+            elif game_board[i][i] == player_2:
+                print(f'{player} is unable to fit as Spot taken by {player_2}')
+        return False
+    return True
+
+
 def show_board(game_board:list):
+    """show game board"""
     for row in game_board:
         print(*row,"\n_____")
-
-
 
 
 #While user input != int ask for a number (int)
@@ -46,19 +98,56 @@ while number_flag:
         print("Please enter a whole number etc 1,2,3" )
 
     print("FUNCTION NOT IMPLEMENTED YET DEFAULTING TO 3")
+
+    #DEFAULT BOARD TO 3
     user_row_col = 3
 
+    #CREATE BOARD
+    print("CREATING BOARD....")
+    create_board(user_row_col)
+
+    show_board(board)
+
+
+player_number_flag = True
+
+while not has_won:
+    player_1_input = 0
+    player_2_input = 0
+
+    while player_number_flag:
+        try:
+            player_1_input = int(input("~~~~~~\nHello player 1 you are X please choose a number: "))
+            player_number_flag = False
+            update_board(player_1_input,board,player_1)
+            show_board(board)
+        except:
+            print("Please enter a number")
+
+    player_number_flag = True
+
+    while player_number_flag:
+        try:
+            player_2_input = int(input("~~~~~~\nHello player 2 you are O please choose a number: "))
+            player_number_flag = False
+            update_board(player_2_input,board,player_2)
+            show_board(board)
+        except:
+            print("Please enter a number")
+
+    player_number_flag = True
+    # has_won = True
 
 
 
 
-create_board(user_row_col)
-show_board(board)
+#player 1 X player 2 O
 
 
 
+# create_board(user_row_col)
+#
+# show_board(board)
 
-#x input needed
-#y input needed
 
-
+# update_board(5,board,'X')
