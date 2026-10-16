@@ -6,6 +6,8 @@ import numpy as np
 #https://www.geeksforgeeks.org/python/input-validation-in-python/
 #https://stackoverflow.com/questions/57420792/check-if-value-exists-in-specific-column-of-2d-list-list-of-lists
 
+
+
 #players
 player_1 = 'X'
 player_2 = 'O'
@@ -76,6 +78,7 @@ def check_position(player_num:int,positions:dict):
     #TODO FIX BECAUSE ITS CHECKING WHEN ITS EQUAL TO ANY PLACE IT'LL CHANGE TO FALSE BUT WE WANT IF THE
     #TODO PLAYER INPUT IS LOCATION IS TAKEN NOT ALL
     #New strategy take the input of that user and compare entered location to the dict of stored
+    #CONTAINS in python
 
     valid = True
 
@@ -149,10 +152,10 @@ while not has_won:
             player_2_input = int(input("~~~~~~\nHello player 2 you are O please choose a number: "))
 
             if player_2_input <= max_count:
-                valid_placement_2 = check_position(player_2_input,player_positions)
+                valid_placement = check_position(player_2_input,player_positions)
 
-                print("2 placement is",valid_placement_2)
-                if valid_placement_2:
+                print("2 placement is",valid_placement)
+                if valid_placement:
                     update_board(player_2_input,board,player_2)
                     show_board(board)
                     break
