@@ -57,7 +57,7 @@ def create_board(row_col:int):
 
 def update_positions(player_locations:dict,player:str, player_input:int):
     """updates player position tracker in player_position"""
-    player_locations.update({player:player_input})
+    player_locations[player].append(player_input)
 
 
 def update_board(player_input:int, game_board:list, player:str):
@@ -164,9 +164,8 @@ while not has_won:
                     show_board(board)
             else:
                 print(f"Please enter a value less than {max_count}")
-        except:
-            print("Please enter a number")
-
+        except Exception as e:
+            raise
 #     has_won = True
 
 
