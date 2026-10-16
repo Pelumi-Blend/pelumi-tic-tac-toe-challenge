@@ -70,15 +70,20 @@ def update_board(player_input:int, game_board:list, player:str):
     #print(player_positions)
 
 
-def check_position(game_board:list,player:str):
+def check_position(game_board:list,player_num:int):
     """Checks if the position the player inputs is free """
+    valid = True
+    #TODO FIX BECAUSE ITS CHECKING WHEN ITS EQUAL TO ANY PLACE IT'LL CHANGE TO FALSE BUT WE WANT IF THE
+    #TODO PLAYER INPUT IS LOCATION IS TAKEN NOT ALL
     for i in range(len(game_board)):
         for j in range(len(game_board)):
-            if game_board[i][j] == player_1:
-                print(f'{player} is unable to fit as spot taken by {player_1}')
-            elif game_board[i][i] == player_2:
-                print(f'{player} is unable to fit as Spot taken by {player_2}')
-
+            if game_board[i][player_num-1] == player_1:
+                #print(f'{player} is unable to fit as spot taken by {player_1}')
+                valid = False
+            elif game_board[i][player_num-1] == player_2:
+                #print(f'{player} is unable to fit as Spot taken by {player_2}')
+                valid = False
+    return valid
 
 def show_board(game_board:list):
     """show game board"""
@@ -106,6 +111,7 @@ while number_flag:
 
     show_board(board)
 
+#Create max count for the board
 max_count = user_row_col * user_row_col
 
 while not has_won:
@@ -117,9 +123,15 @@ while not has_won:
             player_1_input = int(input("~~~~~~\nHello player 1 you are X please choose a number: "))
 
             if player_1_input <= max_count:
-                update_board(player_1_input,board,player_1)
-                show_board(board)
-                break
+                valid_placement = check_position(board,player_1_input)
+
+                print("1 placement is",valid_placement)
+                if valid_placement:
+                    update_board(player_1_input,board,player_1)
+                    show_board(board)
+                    break
+                else:
+                    print("Placement invalid")
             else:
                 print(f"Please enter a value less than {max_count}")
         except:
@@ -131,12 +143,17 @@ while not has_won:
             player_2_input = int(input("~~~~~~\nHello player 2 you are O please choose a number: "))
 
             if player_2_input <= max_count:
-                update_board(player_2_input,board,player_2)
-                show_board(board)
-                break
+                valid_placement = check_position(board,player_2_input)
+                print("2 placement is",valid_placement)
+
+                if valid_placement:
+                    update_board(player_2_input,board,player_2)
+                    show_board(board)
+                    break
+                else:
+                    print("Placement Invalid")
             else:
                 print(f"Please enter a value less than {max_count}")
-            break
         except:
             print("Please enter a number")
 
