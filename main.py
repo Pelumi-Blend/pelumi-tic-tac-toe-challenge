@@ -1,15 +1,17 @@
+from operator import truediv
 
 import numpy as np
 #https://www.w3schools.com/python/python_user_input.asp
 #https://www.geeksforgeeks.org/python/how-to-replace-values-in-a-list-in-python/
 #https://www.geeksforgeeks.org/python/input-validation-in-python/
+#https://stackoverflow.com/questions/57420792/check-if-value-exists-in-specific-column-of-2d-list-list-of-lists
 
 #players
 player_1 = 'X'
 player_2 = 'O'
 #game_board
 board = []
-#
+
 #Winning Combinations only for 3
 winning_combinations = (
     #across
@@ -56,8 +58,6 @@ def update_positions(player_locations:dict,player:str, player_input:int):
     player_locations.update({player:player_input})
 
 
-
-
 def update_board(player_input:int, game_board:list, player:str):
     """Compares input to board and updates if conditions match"""
     for i in range(len(game_board)):
@@ -70,14 +70,24 @@ def update_board(player_input:int, game_board:list, player:str):
     #print(player_positions)
 
 
-def check_position(game_board:list,player:str):
+def check_position(player_num:int,positions:dict):
     """Checks if the position the player inputs is free """
-    for i in range(len(game_board)):
-        for j in range(len(game_board)):
-            if game_board[i][j] == player_1:
-                print(f'{player} is unable to fit as spot taken by {player_1}')
-            elif game_board[i][i] == player_2:
-                print(f'{player} is unable to fit as Spot taken by {player_2}')
+
+    #TODO FIX BECAUSE ITS CHECKING WHEN ITS EQUAL TO ANY PLACE IT'LL CHANGE TO FALSE BUT WE WANT IF THE
+    #TODO PLAYER INPUT IS LOCATION IS TAKEN NOT ALL
+    #New strategy take the input of that user and compare entered location to the dict of stored
+
+    valid = True
+
+    if player_num in positions.get(player_1,[]):
+        valid = False
+        print(player_num, 'is in dict')
+
+    elif player_num in positions.get(player_2,[]):
+        valid = False
+        print(player_num,'is in dict')
+
+    return valid
 
 
 def show_board(game_board:list):
@@ -106,6 +116,7 @@ while number_flag:
 
     show_board(board)
 
+#Create max count for the board
 max_count = user_row_col * user_row_col
 
 while not has_won:
@@ -117,9 +128,16 @@ while not has_won:
             player_1_input = int(input("~~~~~~\nHello player 1 you are X please choose a number: "))
 
             if player_1_input <= max_count:
-                update_board(player_1_input,board,player_1)
-                show_board(board)
-                break
+                valid_placement = check_position(player_1_input,player_positions)
+
+                print("1 placement is",valid_placement)
+                if valid_placement:
+                    update_board(player_1_input,board,player_1)
+                    show_board(board)
+                    break
+                else:
+                    print("Placement invalid")
+                    show_board(board)
             else:
                 print(f"Please enter a value less than {max_count}")
         except:
@@ -131,19 +149,21 @@ while not has_won:
             player_2_input = int(input("~~~~~~\nHello player 2 you are O please choose a number: "))
 
             if player_2_input <= max_count:
-                update_board(player_2_input,board,player_2)
-                show_board(board)
-                break
+                valid_placement_2 = check_position(player_2_input,player_positions)
+
+                print("2 placement is",valid_placement_2)
+                if valid_placement_2:
+                    update_board(player_2_input,board,player_2)
+                    show_board(board)
+                    break
+                else:
+                    print("Placement invalid")
+                    show_board(board)
             else:
                 print(f"Please enter a value less than {max_count}")
-            break
         except:
             print("Please enter a number")
 
-
-
-
-    # has_won = True
-
+#     has_won = True
 
 
