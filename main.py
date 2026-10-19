@@ -1,6 +1,4 @@
-from operator import truediv
 
-import numpy as np
 #https://www.w3schools.com/python/python_user_input.asp
 #https://www.geeksforgeeks.org/python/how-to-replace-values-in-a-list-in-python/
 #https://www.geeksforgeeks.org/python/input-validation-in-python/
@@ -8,9 +6,6 @@ import numpy as np
 
 
 
-#players
-player_1 = 'X'
-player_2 = 'O'
 #game_board
 board = []
 
@@ -29,17 +24,21 @@ winning_combinations = (
     [3,5,7]
 )
 
+#Players
+player_1 = 'X'
+player_2 = 'O'
+
+
 #keep track of player positions
 player_positions = {
     'X': [],
     'O': []
 }
 
-#FLAGS
-number_flag = True
-has_won = False
-
-user_row_col = 0
+#DEFAULT BOARD TO 3
+user_row_col = 3
+#Create max count for the board
+max_count = user_row_col * user_row_col
 
 
 def create_board(row_col:int):
@@ -75,11 +74,8 @@ def update_board(player_input:int, game_board:list, player:str):
 def check_position(player_num:int,positions:dict):
     """Checks if the position the player inputs is free """
 
-    #TODO FIX BECAUSE ITS CHECKING WHEN ITS EQUAL TO ANY PLACE IT'LL CHANGE TO FALSE BUT WE WANT IF THE
-    #TODO PLAYER INPUT IS LOCATION IS TAKEN NOT ALL
     #New strategy take the input of that user and compare entered location to the dict of stored
     #CONTAINS in python
-
     valid = True
 
     if player_num in positions.get(player_1,[]):
@@ -100,71 +96,55 @@ def show_board(game_board:list):
 
 
 #While user input != int ask for a number (int)
-while number_flag:
-    user_no_input = input("Welcome, Please enter a number > than 0:")
+def initial_game_start(number_flag):
+
+    while number_flag:
+
+        try:
+            user_no_input = input("Welcome, Please enter a number > than 0:")
+            number_flag = False
+        except Exception as e:
+            print("Please enter a whole number etc 1,2,3", e)
+
+        print("FUNCTION NOT IMPLEMENTED YET DEFAULTING TO 3")
+
+        #CREATE BOARD
+        print("CREATING BOARD....")
+        create_board(user_row_col)
+
+        show_board(board)
+
+def game_loop(player:str):
+
     try:
-        user_no_input = int(user_no_input)
-        number_flag = False
-    except:
-        print("Please enter a whole number etc 1,2,3" )
+        player_input = int(input(f"~~~~~~\nHello you are {player} please choose a number: "))
 
-    print("FUNCTION NOT IMPLEMENTED YET DEFAULTING TO 3")
+        if player_input <= max_count:
 
-    #DEFAULT BOARD TO 3
-    user_row_col = 3
+            valid_placement = check_position(player_input,player_positions)
+            print("placement is",valid_placement)
 
-    #CREATE BOARD
-    print("CREATING BOARD....")
-    create_board(user_row_col)
-
-    show_board(board)
-
-#Create max count for the board
-max_count = user_row_col * user_row_col
-
-while not has_won:
-    player_1_input = 0
-    player_2_input = 0
-
-    while True:
-        try:
-            player_1_input = int(input("~~~~~~\nHello player 1 you are X please choose a number: "))
-
-            if player_1_input <= max_count:
-                valid_placement = check_position(player_1_input,player_positions)
-
-                print("1 placement is",valid_placement)
-                if valid_placement:
-                    update_board(player_1_input,board,player_1)
-                    show_board(board)
-                    break
-                else:
-                    print("Placement invalid")
+            if valid_placement:
+                update_board(player_input,board,player)
+                show_board(board)
             else:
-                print(f"Please enter a value less than {max_count}")
-        except Exception as e:
-            raise
+                print("Placement invalid")
+        else:
+            print(f"Please enter a value less than {max_count}")
+    except Exception as e:
+        raise
+    #     has_won = True
+
+if __name__ == "__main__":
+
+    has_won = False
+    number_flag = True
 
 
-    while True:
-        try:
-            player_2_input = int(input("~~~~~~\nHello player 2 you are O please choose a number: "))
+    initial_game_start(number_flag)
 
-            if player_2_input <= max_count:
-                valid_placement = check_position(player_2_input,player_positions)
-
-                print("2 placement is",valid_placement)
-                if valid_placement:
-                    update_board(player_2_input,board,player_2)
-                    show_board(board)
-                    break
-                else:
-                    print("Placement invalid")
-                    show_board(board)
-            else:
-                print(f"Please enter a value less than {max_count}")
-        except Exception as e:
-            raise
-#     has_won = True
-
-
+    while not has_won:
+        game_loop(player_1)
+        #check win
+        game_loop(player_2)
+        #check win
