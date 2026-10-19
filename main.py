@@ -136,7 +136,6 @@ def game_loop(player:str):
     #     has_won = True
 
 if __name__ == "__main__":
-
     has_won = False
     number_flag = True
 
