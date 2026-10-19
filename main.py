@@ -133,7 +133,7 @@ def game_loop(player:str):
             print(f"Please enter a value less than {max_count}")
     except Exception as e:
         raise
-    #     has_won = True
+    #  has_won = True
 
 if __name__ == "__main__":
     has_won = False
