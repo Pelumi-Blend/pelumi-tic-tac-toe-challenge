@@ -140,7 +140,6 @@ while not has_won:
                     break
                 else:
                     print("Placement invalid")
-                    show_board(board)
             else:
                 print(f"Please enter a value less than {max_count}")
         except Exception as e:
