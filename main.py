@@ -143,8 +143,8 @@ while not has_won:
                     show_board(board)
             else:
                 print(f"Please enter a value less than {max_count}")
-        except:
-            print("Please enter a number")
+        except Exception as e:
+            raise
 
 
     while True:
