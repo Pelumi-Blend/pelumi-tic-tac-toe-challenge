@@ -1,6 +1,5 @@
 from operator import truediv
 
-import numpy as np
 #https://www.w3schools.com/python/python_user_input.asp
 #https://www.geeksforgeeks.org/python/how-to-replace-values-in-a-list-in-python/
 #https://www.geeksforgeeks.org/python/input-validation-in-python/
