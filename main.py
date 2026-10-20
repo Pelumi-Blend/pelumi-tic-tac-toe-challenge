@@ -154,7 +154,7 @@ def game_loop(player:str):
         try:
             player_input = int(input(f"~~~~~~\nHello you are {player} please choose a number: "))
 
-            if player_input <= max_count:
+            if player_input <= max_count and player_input > 0:
 
                 valid_placement = check_position(player_input,player_positions)
                 # print("placement is",valid_placement)
@@ -166,7 +166,7 @@ def game_loop(player:str):
                 else:
                     print(f"Placement at {player_input} invalid spot taken")
             else:
-                print(f"Please enter a value less than {max_count}")
+                print(f"Please enter a value less than {max_count} or number > 0")
         except Exception as e:
             print('Please enter a valid number: ',e)
 
