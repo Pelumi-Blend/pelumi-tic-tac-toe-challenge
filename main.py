@@ -80,11 +80,11 @@ def check_position(player_num:int,positions:dict):
 
     if player_num in positions.get(player_1,[]):
         valid = False
-        print(player_num, 'is in dict')
+        #print(player_num, 'is in dict')
 
     elif player_num in positions.get(player_2,[]):
         valid = False
-        print(player_num,'is in dict')
+        #print(player_num,'is in dict')
 
     return valid
 
@@ -96,13 +96,13 @@ def show_board(game_board:list):
 
 
 #While user input != int ask for a number (int)
-def initial_game_start(number_flag):
+def initial_game_start(game_flag):
 
-    while number_flag:
+    while game_flag:
 
         try:
             user_no_input = input("Welcome, Please enter a number > than 0:")
-            number_flag = False
+            game_flag = False
         except Exception as e:
             print("Please enter a whole number etc 1,2,3", e)
 
@@ -115,25 +115,27 @@ def initial_game_start(number_flag):
         show_board(board)
 
 def game_loop(player:str):
+    continue_game = False
+    while not continue_game:
+        try:
+            player_input = int(input(f"~~~~~~\nHello you are {player} please choose a number: "))
 
-    try:
-        player_input = int(input(f"~~~~~~\nHello you are {player} please choose a number: "))
+            if player_input <= max_count:
 
-        if player_input <= max_count:
+                valid_placement = check_position(player_input,player_positions)
+                # print("placement is",valid_placement)
 
-            valid_placement = check_position(player_input,player_positions)
-            print("placement is",valid_placement)
-
-            if valid_placement:
-                update_board(player_input,board,player)
-                show_board(board)
+                if valid_placement:
+                    update_board(player_input,board,player)
+                    show_board(board)
+                    continue_game = True
+                else:
+                    print(f"Placement at {player_input} invalid spot taken")
             else:
-                print("Placement invalid")
-        else:
-            print(f"Please enter a value less than {max_count}")
-    except Exception as e:
-        raise
-    #  has_won = True
+                print(f"Please enter a value less than {max_count}")
+        except Exception as e:
+            raise
+        #  has_won = True
 
 if __name__ == "__main__":
     has_won = False
