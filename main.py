@@ -126,7 +126,6 @@ def show_board(game_board:list):
 
 #While user input != int ask for a number (int)
 def initial_game_start(flag):
-
     while flag:
 
         try:
@@ -171,7 +170,11 @@ def game_loop(player:str):
         except Exception as e:
             print('Please enter a valid number: ',e)
 
-
+#
+# def check_state(winning_flag):
+#     if winning_flag:
+#         print('Game over')
+#     raise "not done"
 
 if __name__ == "__main__":
     has_won = False
@@ -180,23 +183,26 @@ if __name__ == "__main__":
     initial_game_start(number_flag)
 
     while not has_won:
+
         game_loop(player_1)
         #check win
         has_won =  player_won(winning_combinations,player_positions,player_1)
-        draw = player_draw(board)
 
         if has_won:
             break
-        elif draw:
+        draw = player_draw(board)
+        if draw:
             break
 
         game_loop(player_2)
         #check win
         has_won =  player_won(winning_combinations,player_positions,player_2)
-        draw = player_draw(board)
+
         if has_won:
             break
-        elif draw:
+        draw = player_draw(board)
+        if draw:
             break
+
 
 
